@@ -1,0 +1,24 @@
+## How to run
+
+Set up two topics: `exampleTopic` and `replyTopic1`.
+Also create a subscription `replyTopicSub` for `replyTopic`.
+
+In this directory:
+```
+mvn spring-boot:run
+```
+
+In different terminal, publish a message "from client":
+
+```
+gcloud pubsub topics publish exampleTopic --message "hello2" --attribute='reply-to-topic=replyTopic1'
+```
+
+It will show up in the application log.
+
+Now pull the message from the reply topic:
+
+```
+gcloud pubsub subscriptions pull --auto-ack replyTopicSub --limit=10
+```
+
