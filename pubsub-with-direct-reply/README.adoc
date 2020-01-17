@@ -1,7 +1,7 @@
 ## How to run
 
 Set up two topics: `exampleTopic` and `replyTopic1`.
-Also create a subscription `replyTopicSub` for `replyTopic`.
+Also create a subscription `replyTopicSub` for `replyTopic1`.
 
 In this directory:
 ```
