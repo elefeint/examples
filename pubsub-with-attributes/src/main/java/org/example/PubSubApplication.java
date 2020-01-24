@@ -32,7 +32,7 @@ public class PubSubApplication {
   @MessagingGateway(defaultRequestChannel = "pubsubOutputChannel")
   public interface PubsubOutboundGateway {
 
-    void sendToPubsub(String text, @Header("custom-header") String filename);
+    void sendToPubsub(String text, @Header("custom-header") String header);
   }
 
   // subscribing side, just to see that the custom attribute was set.
