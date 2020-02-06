@@ -17,6 +17,8 @@
 package com.google.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,14 +32,19 @@ import reactor.core.publisher.EmitterProcessor;
 public class DataEntryController {
 
 	@Autowired
-	private EmitterProcessor<String> frontEndListener;
+	private EmitterProcessor<Message<String>> frontEndListener;
 
 	@PostMapping("/sendData")
-	public RedirectView mainPage(@RequestParam String data) {
+	public RedirectView mainPage(@RequestParam String data, @RequestParam String key) {
 		System.out.println("Sending data: " + data);
 
+		Message<String> message = MessageBuilder
+				.withPayload(data)
+				.setHeader("key", key)
+				.build();
+
 		// Sends data into local processing queue
-		this.frontEndListener.onNext(data);
+		this.frontEndListener.onNext(message);
 
 		return new RedirectView("/");
 	}

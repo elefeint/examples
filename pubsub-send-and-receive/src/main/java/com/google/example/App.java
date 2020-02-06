@@ -21,6 +21,8 @@ import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.Header;
 import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
 
@@ -36,22 +38,23 @@ public class App {
 	}
 
 	@Bean
-	public EmitterProcessor<String> frontEndListener() {
+	public EmitterProcessor<Message<String>> frontEndListener() {
 		return EmitterProcessor.create();
 	}
 
 	// This will automatically send all data from the internal queue to the Pub/Sub topic configured
 	// in application.properties.
 	@Bean
-	Supplier<Flux<String>> sendMessagesForDeduplication(final EmitterProcessor<String> frontEndListener) {
+	Supplier<Flux<Message<String>>> sendMessagesForDeduplication(final EmitterProcessor<Message<String>> frontEndListener) {
 		return () -> frontEndListener;
 	}
 
 
 	@Bean
-	Consumer<String> receiveDedupedMessagesFromDataflow() {
-		return data -> {
-			System.out.println("\t\tDE-DUPED message: " + data);
+	Consumer<Message<String>> receiveDedupedMessagesFromDataflow() {
+		return msg -> {
+			System.out.println("\t\tDE-DUPED message: " + msg.getPayload()
+					+ "; key = " + msg.getHeaders().get("key"));
 		};
 	}
 
