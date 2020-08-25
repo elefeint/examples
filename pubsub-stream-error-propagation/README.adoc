@@ -1,0 +1,41 @@
+This sample demonstrates expected error raising behavior of Spring Cloud Stream with Cloud Pub/Sub in synchronous mode.
+
+== Scenario 1A. Synchronous mode, error triggered in client library pre-checks.
+1. Run the app as is (it's using the default topic named "output").
+
+1. Load `http://localhost:8080/pubsub-success` in a browser; observe successful publishing.
+
+1. Load `http://localhost:8080/pubsub-error`; observe message `As expected, the error was propagated back to sender.`
+
+
+== Scenario 1B. Synchronous mode, error triggered when publishing to gRPC
+1. Run the app as is (it's using the default topic named "output").
+
+1. Turn off internet access.
+
+1. Load `http://localhost:8080/pubsub-success` in a browser.
++
+In ~10 seconds, observe message `This exception should not happen (unless you turned internet off)`.
+
+
+== Scenario 2A. Async mode, error triggered in client library pre-checks
+In this case, despite the async mode, the error will get propagated because these assertions are done before asynchronous task is created.
+
+1. In file `application.properties`, remove or comment out the `spring.cloud.stream.gcp.pubsub.default.producer.sync=true` line.
+
+1. Load `http://localhost:8080/pubsub-success` in a browser; observe successful publishing.
+
+1. Load `http://localhost:8080/pubsub-error`; observe message `As expected, the error was propagated back to sender.`
+
+
+
+== Scenario 2B. Async mode, error triggered when publishing to gRPC
+This failure is *not* detectable by catching exceptions (although there will be verbose logging from lower levels).
+
+1. In file `application.properties`, remove or comment out the `spring.cloud.stream.gcp.pubsub.default.producer.sync=true` line.
+
+1. Turn off internet access.
+
+1. Load `http://localhost:8080/pubsub-success` in a browser.
++
+Observe that the error catching block (`his exception should not happen (unless you turned internet off`) is *not* triggered, although eventually DNS resolution stack traces will appear in output.
