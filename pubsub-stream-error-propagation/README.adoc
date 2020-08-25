@@ -1,4 +1,4 @@
-This sample demonstrates expected error raising behavior of Spring Cloud Stream with Cloud Pub/Sub in synchronous mode.
+This sample demonstrates expected error raising behavior of Spring Cloud Stream with Cloud Pub/Sub in synchronous and asynchronous sending mode.
 
 == Scenario 1A. Synchronous mode, error triggered in client library pre-checks.
 1. Run the app as is (it's using the default topic named "output").
@@ -8,7 +8,7 @@ This sample demonstrates expected error raising behavior of Spring Cloud Stream 
 1. Load `http://localhost:8080/pubsub-error`; observe message `As expected, the error was propagated back to sender.`
 
 
-== Scenario 1B. Synchronous mode, error triggered when publishing to gRPC
+== Scenario 1B. Synchronous mode, error triggered when publishing to gRPC asynchronously
 1. Run the app as is (it's using the default topic named "output").
 
 1. Turn off internet access.
@@ -19,7 +19,7 @@ In ~10 seconds, observe message `This exception should not happen (unless you tu
 
 
 == Scenario 2A. Async mode, error triggered in client library pre-checks
-In this case, despite the async mode, the error will get propagated because these assertions are done before asynchronous task is created.
+In this case, despite the async mode, the error will get propagated because these assertions are done before asynchronous task is queued up.
 
 1. In file `application.properties`, remove or comment out the `spring.cloud.stream.gcp.pubsub.default.producer.sync=true` line.
 
