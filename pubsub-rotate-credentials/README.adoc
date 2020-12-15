@@ -1,0 +1,16 @@
+## Expiring/rotating credentials example
+
+This example demonstrates refreshing Pub/Sub credentials and dependent beans to re-subscribe without having to restart the application.
+
+How to run this sample:
+
+1. Update `credentials.path` property in `application.properties` file to point to a JSON credentials file with sufficient permissions to subscribe to Pub/Sub.
+2. Create a topic with any name and subscription named `sub-one` associated with this topic.
+3. Start `SampleApplication`.
+4. Send some messages to the topic.
+5. In Cloud console's Identity  > Service Accounts section, find the service account you are using and delete the key.
+6. Observe error messages either in a few minutes, or immediately after sending another message to the topic.
+7. Generate a new JSON key and save it into the same file location, replacing the old invalid key.
+8. In a terminal, run `curl -X POST http://localhost:8080/actuator/refresh`.
+9. Observe application logs indicating context refresh.
+The application will now correctly receive messages again.
