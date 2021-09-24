@@ -1,7 +1,11 @@
 package com.example;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 
 // Any beans returned by methods inside of any class marked with `@SpringBootApplication`
@@ -19,6 +23,21 @@ public class SampleApplication {
   @Bean
   public SomeClass someClassObjectFromSpringBootApplicationAnnotation() {
     return new SomeClass("object1 from @SpringBootAnnotation");
+  }
+
+  /*
+   * Order:
+   * postProcessBeanDefinitionRegistry
+   * postProcessBeanFactory
+   */
+  @Bean
+  public CustomBeanDefinitionRegistryPostProcessor customBeanDefinitionRegistryPostProcessor() {
+    return new CustomBeanDefinitionRegistryPostProcessor();
+  }
+
+  @Bean
+  public BeanPostProcessor customBeanPostProcessor() {
+    return new CustomBeanPostProcessor();
   }
 
 }
