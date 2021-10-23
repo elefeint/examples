@@ -3,6 +3,7 @@ package com.example;
 import static org.junit.Assert.assertEquals;
 
 import com.google.api.gax.retrying.RetrySettings;
+import com.google.api.gax.rpc.StatusCode;
 import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.pubsub.v1.stub.SubscriberStub;
 import com.google.cloud.pubsub.v1.stub.SubscriberStubSettings;
@@ -39,7 +40,7 @@ public class PubSubClientLibraryTest {
         .setMaxAttempts(maxRetryAttempts)
         .setTotalTimeout(Duration.ofMinutes(10))
         .build();
-    settingsBuilder.pullSettings().setRetrySettings(retrySettings);
+    settingsBuilder.pullSettings().setRetrySettings(retrySettings).setRetryableCodes(StatusCode.Code.INTERNAL);;
     SubscriberStubSettings settings = settingsBuilder.build();
 
     // initial stub settings are correct.
