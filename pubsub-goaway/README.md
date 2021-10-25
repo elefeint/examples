@@ -27,7 +27,9 @@ In this directory, run:
 mvn test -Dgcp.project=[YOUR_PROJECT] -Dpubsub.subscription=[YOUR_SUBSCRIPTION]
 ```
 
-Observe that even though retry settings are set up programmatically in `PubSubClientLibraryTest`, the test fails on the GOAWAY message.
+Observe that when `.setRetryableCodes(StatusCode.Code.INTERNAL)` is present, the retries work correctly.
+
+If you remove `.setRetryableCodes(StatusCode.Code.INTERNAL)` and rerun the app, even though retry settings are set up programmatically in `PubSubClientLibraryTest`, the test fails on the GOAWAY message.
 
 ```
 RetrySettings retrySettings = RetrySettings.newBuilder()

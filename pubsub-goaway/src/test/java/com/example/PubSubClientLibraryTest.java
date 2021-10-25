@@ -40,7 +40,7 @@ public class PubSubClientLibraryTest {
         .setMaxAttempts(maxRetryAttempts)
         .setTotalTimeout(Duration.ofMinutes(10))
         .build();
-    settingsBuilder.pullSettings().setRetrySettings(retrySettings).setRetryableCodes(StatusCode.Code.INTERNAL);;
+    settingsBuilder.pullSettings().setRetrySettings(retrySettings).setRetryableCodes(StatusCode.Code.INTERNAL);
     SubscriberStubSettings settings = settingsBuilder.build();
 
     // initial stub settings are correct.
