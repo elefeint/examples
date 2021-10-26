@@ -4,6 +4,12 @@ This sample demonstrates the impact of a (simulated) server-side GOAWAY response
 
 Standard gcloud installation with default credentials is the easiest.
 
+## With Spring Cloud GCP version 2.0.5, a new property `retryableCodes` accepts a custom list of retriable codes. 
+This allows the client library to retry automatically.
+
+```
+spring.cloud.gcp.pubsub.subscriber.retryableCodes=UNKNOWN,ABORTED,UNAVAILABLE,INTERNAL
+```
 ## How was GOAWAY simulated?
 
 GOAWAY handover from Netty to gRPC happens [here](https://github.com/grpc/grpc-java/blob/735b85fb335238354042c2dd01688bec6105b824/netty/src/main/java/io/grpc/netty/NettyClientHandler.java#L280).
