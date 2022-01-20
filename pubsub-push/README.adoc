@@ -1,0 +1,26 @@
+This sample demonstrates reconnecting a trace span to its parent trace when Pub/Sub push subscriptions are used.
+
+## To run:
+
+1) Start Pub/Sub emulator
+```
+gcloud beta emulators pubsub start
+```
+
+2) Start the application. It will create `pushtopic` and `pushsubscription` in the emulator.
+```
+mvn spring-boot:run
+```
+
+3) Do a POST call to the `/sendMessage` endpoint to start the process.
+This will publish the message to the Pub/Sub emulator.
+```
+curl -X POST -d'test message' http://localhost:8080/sendMessage
+```
+
+4) Observe the logging message indicating that the push endpoint was invoked by the emulator:
+```
+ Got message from Pub/Sub push
+```
+
+5) Go to Cloud Console (https://console.cloud.google.com/traces/list); observe there is a single, unified trace going from `/sendmessage` to `got-message-from-pubsub-push`.
