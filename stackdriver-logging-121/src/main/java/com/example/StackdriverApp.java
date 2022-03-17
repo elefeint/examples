@@ -13,7 +13,7 @@ public class StackdriverApp {
   public static void main(String[] args) throws Exception {
     SpringApplication.run(StackdriverApp.class, args);
 
-    LOGGER.error("Blah blahety blah");
+    LOGGER.error("This will be logged");
 
     System.in.read();
   }
