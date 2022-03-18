@@ -19,15 +19,7 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <packaging>war</packaging>
-  <!--
-  The parent pom defines common style checks and testing strategies for our samples.
-  Removing or replacing it should not affect the execution of the samples in anyway.
-  -->
-  <parent>
-      <groupId>com.google.cloud.samples</groupId>
-      <artifactId>shared-configuration</artifactId>
-      <version>1.2.0</version>
-  </parent>
+
 
   <properties>
       <maven.compiler.target>17</maven.compiler.target>
@@ -69,10 +61,12 @@
     </dependency>
 
     <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-jetty</artifactId>
-        <version>2.5.5</version>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
     </dependency>
+
+
   </dependencies>
 
   <build>
