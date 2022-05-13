@@ -74,8 +74,7 @@ mvn clean install
     
     ```
 
-And now I am well and truly stuck.
-
+4. To work around the NPE, set `--jvm_flag="-Duser.timezone='GMT-5'"` or similar.
 
 # Original instructions
 
