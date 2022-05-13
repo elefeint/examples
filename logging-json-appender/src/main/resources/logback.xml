@@ -1,9 +1,17 @@
 <configuration>
   <include resource="com/google/cloud/spring/logging/logback-json-appender.xml" />
 
-  <root level="INFO">
-    <appender-ref ref="CONSOLE_JSON" />
-  </root>
+  <appender name="CUSTOM_CONSOLE_JSON" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.google.cloud.spring.logging.StackdriverJsonLayout">
+        <projectId>${projectId}</projectId>
+        <loggingEventEnhancer>com.example.OpsAgentEnhancer</loggingEventEnhancer>
+      </layout>
+    </encoder>
+  </appender>
 
+  <root level="INFO">
+    <appender-ref ref="CUSTOM_CONSOLE_JSON" />
+  </root>
 
 </configuration>
