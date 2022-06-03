@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+
+	id 'com.google.cloud.tools.appengine' version '2.4.3'
+}
+
+appengine {
+	deploy {
+		projectId = 'GCLOUD_CONFIG'
+		version = "2-gradle-compat"
+	}
+	stage {
+		// Use the Spring Boot fat jar
+		artifact = 'build/libs/demo-0.0.1-SNAPSHOT.jar'
+	}
+}
+
+// Disable built-in jar generation, so we don't end up with two jars
+jar {
+	enabled = false;
+}
+
+
+
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
