@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'com.google.cloud.tools.jib' version '3.2.1'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+afterEvaluate {
+    jib {
+        from {
+            image = "base-image"
+        }
+        containerizingMode = "packaged"
+        container {
+            appRoot = "/usr/local/app"
+        }
+    }
+}
+
+
+/*
+    // The following would work just fine, if you remove afterEvaluate
+    jib {
+        from {
+            image = "base-image"
+        }
+        containerizingMode = "packaged"
+        container {
+            appRoot = "/usr/local/app"
+        }
+    }
+*/
+
+
+project.gradle.taskGraph.whenReady {
+    println "*** containerizing mode = " + jib.containerizingMode
+    println project.gradle.taskGraph.getAllTasks()
+}
+
+
+project.afterEvaluate {
+    println "*** afterEvaluate mode = " + jib.containerizingMode
+}
+
+gradle.projectsEvaluated {
+    println "*** projectsevaluated mode = " + jib.containerizingMode
+}
