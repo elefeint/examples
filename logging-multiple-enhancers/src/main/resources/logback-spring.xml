@@ -1,0 +1,12 @@
+<configuration>
+
+  <appender name="STACKDRIVER" class="com.google.cloud.spring.logging.LoggingAppender">
+    <enhancer>com.google.cloud.spring.logging.TraceIdLoggingEnhancer</enhancer>
+    <enhancer>com.example.CustomFieldEnhancer</enhancer>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="STACKDRIVER"/>
+  </root>
+
+</configuration>
